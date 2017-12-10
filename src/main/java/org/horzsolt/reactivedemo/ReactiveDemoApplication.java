@@ -1,6 +1,8 @@
 package org.horzsolt.reactivedemo;
 
 import lombok.*;
+import org.horzsolt.reactivedemo.org.horzsolt.reactivedemo.data.Movie;
+import org.horzsolt.reactivedemo.org.horzsolt.reactivedemo.data.MovieRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -39,33 +41,16 @@ class SampleDataIntitializer implements ApplicationRunner {
 				.map(m -> new Movie(m))
 				.flatMap(mr::save);
 
-		/*mr.deleteAll()
+		mr.deleteAll()
 				.thenMany(movieFlux)
 				.thenMany(mr.findAll())
-				.subscribe(System.out::println);*/
+				.subscribe(System.out::println);
 
-		movieFlux.thenMany(mr.findAll()).subscribe(System.out::println);
+		//movieFlux.thenMany(mr.findAll()).subscribe(System.out::println);
 	}
 }
 
 
-interface MovieRepository extends ReactiveMongoRepository<Movie, String> {
-}
 
-@Document
-@Data
-@NoArgsConstructor
-@RequiredArgsConstructor
-class Movie {
-	private String id;
-	@NonNull
-	private String title;
-}
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-class MovieEvent {
-	private String movieId;
-	private Date date;
-}
+
